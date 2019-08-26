@@ -31,9 +31,7 @@ exports.getOne = async function (req, res, next) {
 exports.updateById = async function (req, res, next) {
     try {
         let item = await Item.findByIdAndUpdate({ _id: req.params.contentId },
-            {
-                $set: { content: req.body.content }
-            },
+            req.body,
             { new: true }
         )
         res.status(200).json(successResponse("Update an item is success", item));

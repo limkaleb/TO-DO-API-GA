@@ -11,10 +11,10 @@ router.get('/:contentId', itemController.getOne);
 // post 1 item
 router.post('/', itemController.postItem);
 
-// update 1 item
+// update 1 item by id
 router.put('/:contentId', itemController.updateById);
 
-// delete 1 item
+// delete 1 item by id
 router.delete('/:contentId', itemController.deleteById);
 
 module.exports = router;
