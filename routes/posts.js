@@ -17,18 +17,6 @@ router.put('/:contentId', itemController.updateById);
 // delete 1 item
 router.delete('/:contentId', itemController.deleteById);
 
-router.get('/:id', function (req, res, next) {
-    res.send('This shows 1 post');
-});
-
-router.put('/:id', function (req, res, next) {
-    res.send('This update 1 post');
-});
-
-router.delete('/:id', function (req, res, next) {
-    res.send('This delete 1 post');
-});
-
 module.exports = router;
 
 /*
