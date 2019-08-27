@@ -17,6 +17,10 @@ router.put('/:contentId', itemController.updateById);
 // delete 1 item by id
 router.delete('/:contentId', itemController.deleteById);
 
+// delete all item
+router.delete('/', itemController.deleteAll);
+
+
 module.exports = router;
 
 /*

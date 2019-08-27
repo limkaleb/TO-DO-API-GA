@@ -49,3 +49,12 @@ exports.deleteById = async function (req, res, next) {
 
     }
 }
+
+exports.deleteAll = async function (req, res, next) {
+    try {
+        let item = await Item.deleteMany({});
+        res.status(200).json(successResponse("Delete all items is success", item));
+    } catch (err) {
+        res.status(500).json(errorResponse("SOmething is error when deleting all items", err));
+    }
+}
