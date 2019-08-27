@@ -10,7 +10,9 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const postsRouter = require('./routes/posts');
 
-mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true, useCreateIndex: true });
+mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true, useCreateIndex: true }, () => {
+  console.log('Connect to db');
+});
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
