@@ -4,13 +4,13 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
-// require('dotenv').config();
+require('dotenv').config();
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const postsRouter = require('./routes/posts');
 
-mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true, useCreateIndex: true }, () => {
+mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false }, () => {
   console.log('Connect to db');
 });
 

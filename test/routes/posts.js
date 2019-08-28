@@ -39,7 +39,7 @@ describe('Item', () => {
                 .post('/posts')
                 .send(itemSample)
                 .end((err, res) => {
-                    expect(res).to.have.status(200);
+                    expect(res).to.have.status(201);
                     expect(res.body).to.be.a('object');
                     expect(res.body.result).to.have.property('content');
                     expect(res.body).to.have.property('success').eql(true);

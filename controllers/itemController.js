@@ -4,7 +4,7 @@ const { successResponse, errorResponse } = require('../helpers/response');
 exports.postItem = async function (req, res, next) {
     try {
         let item = await Item.create({ content: req.body.content });
-        res.status(200).json(successResponse("Post item to database success", item));
+        res.status(201).json(successResponse("Post item to database success", item));
     } catch (err) {
         res.status(422).json(errorResponse("Something is error when creating an item", err));
     }

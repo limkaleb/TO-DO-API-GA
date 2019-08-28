@@ -29,6 +29,6 @@ GET 1 post      /posts/:id
 GET completed   /posts/completed
 POST create     /posts
 PUT update      /posts/:id
-PUT completed        /posts/:id
+PUT completed   /posts/:id
 DELETE destroy  /posts/:id
 */
