@@ -11,12 +11,8 @@ exports.postItem = async function (req, res, next) {
 }
 
 exports.getAll = async function (req, res, next) {
-    try {
-        let items = await Item.find();
-        res.status(200).json(successResponse("Get all items is success", items));
-    } catch (err) {
-        res.status(422).json(errorResponse("Something is error when getting data", err));
-    }
+    let items = await Item.find();
+    res.status(200).json(successResponse("Get all items is success", items));
 }
 
 exports.getOne = async function (req, res, next) {
@@ -51,10 +47,6 @@ exports.deleteById = async function (req, res, next) {
 }
 
 exports.deleteAll = async function (req, res, next) {
-    try {
-        let item = await Item.deleteMany({});
-        res.status(200).json(successResponse("Delete all items is success", item));
-    } catch (err) {
-        res.status(500).json(errorResponse("SOmething is error when deleting all items", err));
-    }
+    let item = await Item.deleteMany({});
+    res.status(200).json(successResponse("Delete all items is success", item));
 }
