@@ -269,9 +269,12 @@ describe('Item', () => {
             })
         });
         */
+
 });
 
 after((done) => {
-    User.deleteMany({})
-    done()
+    User.deleteMany({}, (err) => {
+        done(err);
+    })
+
 });
