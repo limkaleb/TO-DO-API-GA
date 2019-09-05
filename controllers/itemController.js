@@ -1,5 +1,6 @@
 const Item = require('../models/Item');
 const User = require('../models/User');
+const mongoose = require('mongoose');
 const { successResponse, errorResponse } = require('../helpers/response');
 
 exports.postItem = async function (req, res, next) {
@@ -27,7 +28,7 @@ exports.getPosts = async function (req, res, next) {
             .select(['_id', 'username', 'posts'])
             .populate({
                 path: 'posts',
-                select: ['_id', 'content']
+                select: ['_id', 'content', 'completed']
             });
         res.status(200).json(successResponse("Show posts is success", user));
     } catch (err) {
@@ -56,11 +57,13 @@ exports.updateById = async function (req, res, next) {
 
 exports.deleteById = async function (req, res, next) {
     try {
-        let item = await Item.findByIdAndRemove({ _id: req.params.contentId })
-        res.status(200).json(successResponse("Delete an item is success", item));
+        let user = await User.findOne({ posts: mongoose.Types.ObjectId(req.params.contentId) });
+        let index = await user.posts.indexOf(req.params.contentId);
+        user.posts.splice(index, 1);
+        let result = await user.save();
+        res.status(200).json(successResponse("Delete an item is success", result));
     } catch (err) {
         res.status(422).json(errorResponse("Something is error when deleting an item", err));
-
     }
 }
 
