@@ -271,7 +271,7 @@ describe('Item', () => {
         */
 });
 
-// after(async (done) => {
-//     await User.deleteMany({})
-//     done()
-// })
+after((done) => {
+    User.deleteMany({})
+    done()
+});
