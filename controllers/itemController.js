@@ -1,10 +1,15 @@
 const Item = require('../models/Item');
+const User = require('../models/User');
 const { successResponse, errorResponse } = require('../helpers/response');
 
 exports.postItem = async function (req, res, next) {
     try {
         let item = await Item.create({ content: req.body.content });
-        res.status(201).json(successResponse("Post item to database success", item));
+        let user = await User.findById(req.params.userId);
+
+        user.posts.push(item);
+        let result = await user.save();
+        res.status(201).json(successResponse("Post item to database success", result));
     } catch (err) {
         res.status(422).json(errorResponse("Something is error when creating an item", err));
     }
@@ -15,22 +20,35 @@ exports.getAll = async function (req, res, next) {
     res.status(200).json(successResponse("Get all items is success", items));
 }
 
-exports.getOne = async function (req, res, next) {
+exports.getPosts = async function (req, res, next) {
     try {
-        let items = await Item.findOne({ _id: req.params.contentId });
-        res.status(200).json(successResponse("Show 1 item is success", items));
+        let user = await User
+            .findById(req.params.userId)
+            .select(['_id', 'username', 'posts'])
+            .populate({
+                path: 'posts',
+                select: ['_id', 'content']
+            });
+        res.status(200).json(successResponse("Show posts is success", user));
     } catch (err) {
-        res.status(422).json(errorResponse("Something is error when getting data"));
+        res.status(422).json(errorResponse("Something is error when getting data", err));
     }
 }
 
 exports.updateById = async function (req, res, next) {
     try {
-        let item = await Item.findByIdAndUpdate({ _id: req.params.contentId },
-            req.body,
+        const id = req.params.contentId;
+        let item = await Item.findByIdAndUpdate({ _id: id },
+            {
+                $set: req.body
+            },
             { new: true }
         )
-        res.status(200).json(successResponse("Update an item is success", item));
+        if (!req.body.content && !req.body.completed) {
+            res.status(422).json(errorResponse('Field does not exist'));
+        } else {
+            res.status(200).json(successResponse("Update an item is success", item));
+        }
     } catch (err) {
         res.status(422).json(errorResponse("Something is error when updating an item", err));
     }
@@ -38,7 +56,7 @@ exports.updateById = async function (req, res, next) {
 
 exports.deleteById = async function (req, res, next) {
     try {
-        let item = await Item.deleteOne({ _id: req.params.contentId })
+        let item = await Item.findByIdAndRemove({ _id: req.params.contentId })
         res.status(200).json(successResponse("Delete an item is success", item));
     } catch (err) {
         res.status(422).json(errorResponse("Something is error when deleting an item", err));
